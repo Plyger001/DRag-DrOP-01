@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Drag & Drop-Services</title>
+</head>
+
+<body>
+    <div class="container">
+        <div id="left">
+            <div class="list" draggable="true"><img src="" alt="d" />Images </div>
+            <div class="list" draggable="true"><img src="" alt="d" />Text </div>
+            <div class="list" draggable="true"><img src="" alt="d" />Icons </div>
+            <div class="list" draggable="true"><img src="" alt="d" />Subtitles </div>
+        </div>
+        <div id="right"></div>
+        <br /><br />
+        <button onclick="reset()">Reset</button>
+    </div>
+
+    <div id="success-message" class="hidden">Item dropped successfully!</div>
+    <script>
+        let lists = document.getElementsByClassName("list");
+        let rightBox = document.getElementById("right");
+        let leftBox = document.getElementById("left");
+        let successMessage = document.getElementById("success-message");
+
+        for (list of lists) {
+            list.addEventListener("dragstart", function (e) {
+                let selected = e.target;
+
+                rightBox.addEventListener("dragover", function (e) {
+                    e.preventDefault();
+                });
+                rightBox.addEventListener("drop", function (e) {
+                    rightBox.appendChild(selected);
+                    selected = null;
+                    successMessage.classList.remove("hidden");
+                });
+                leftBox.addEventListener("dragover", function (e) {
+                    e.preventDefault();
+                });
+                leftBox.addEventListener("drop", function (e) {
+                    leftBox.appendChild(selected);
+                    selected = null;
+                    successMessage.classList.add("hidden");
+                });
+            });
+        }
+
+        function reset() {
+            // Move all items back to the left box
+            while (rightBox.firstChild) {
+                leftBox.appendChild(rightBox.firstChild);
+            }
+            successMessage.classList.add("hidden");
+        }
+    </script>
+</body>
+
+</html>
